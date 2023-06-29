@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import TaskItem from './TaskItem';
- 
 
 const TaskTable = ({ tasks }) => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [updatedTasks, setUpdatedTasks] = useState(tasks);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleTaskClick = task => {
     const updatedTask = { ...task };
@@ -27,9 +27,17 @@ const TaskTable = ({ tasks }) => {
     setSelectedTask(updatedTask);
   };
 
+  const handleSearchChange = e => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filterTasks = task => {
+    return task.name.toLowerCase().includes(searchQuery.toLowerCase());
+  };
+
   const renderTasks = status => {
     return updatedTasks
-      .filter(task => task.status === status)
+      .filter(task => task.status === status && filterTasks(task))
       .map(task => (
         <TaskItem
           key={task.id}
@@ -42,6 +50,14 @@ const TaskTable = ({ tasks }) => {
 
   return (
     <div className="glavna">
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Pretraži taskove"
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+      </div>
       <table className="task-table">
         <thead>
           <tr>
