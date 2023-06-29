@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
+import TaskTable from './TaskTable';
 
 
 
@@ -82,7 +83,7 @@ function App() {
   ]);
   return (
     <div className="App">
-     
+      <TaskTable tasks={tasks}></TaskTable>
     </div>
   );
 }
