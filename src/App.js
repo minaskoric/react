@@ -1,10 +1,11 @@
-import logo from './logo.svg';
+ 
 import './App.css';
 import { useState } from 'react';
 import TaskTable from './TaskTable';
 import HomePage from './HomePage';
+import Navbar from './Navbar';
 
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
 
@@ -83,11 +84,17 @@ function App() {
     },
   ]);
   return (
-    <div className="App">
-      <HomePage></HomePage>
-      <TaskTable tasks={tasks}></TaskTable>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route  path="/" element={<HomePage></HomePage>} />
+        <Route path="/kanban" element={<TaskTable tasks={tasks}></TaskTable>} />
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
+
+ 
+ 
