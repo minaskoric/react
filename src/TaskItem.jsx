@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
- 
-const TaskItem = ({ task }) => {
+
+const TaskItem = ({ task, setSelectedTask }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
+    setSelectedTask(task);
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+    setSelectedTask(null);
   };
 
   let backgroundColor;
