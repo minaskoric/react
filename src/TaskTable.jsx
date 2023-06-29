@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import TaskItem from './TaskItem';
  
 const TaskTable = ({ tasks }) => {
   const [selectedTask, setSelectedTask] = useState(null);
@@ -11,14 +12,7 @@ const TaskTable = ({ tasks }) => {
     return tasks
       .filter(task => task.status === status)
       .map(task => (
-        <tr
-          key={task.id}
-          onMouseEnter={() => handleTaskHover(task)}
-          onMouseLeave={() => handleTaskHover(null)}
-        >
-          <td>{task.name}</td>
-          <td>{task.time} min</td>
-        </tr>
+        <TaskItem key={task.id} task={task}  setSelectedTask={setSelectedTask}/>
       ));
   };
 
