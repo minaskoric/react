@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import TaskTable from './TaskTable';
+import HomePage from './HomePage';
 
 
 
@@ -83,6 +84,7 @@ function App() {
   ]);
   return (
     <div className="App">
+      <HomePage></HomePage>
       <TaskTable tasks={tasks}></TaskTable>
     </div>
   );
