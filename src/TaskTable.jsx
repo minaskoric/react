@@ -5,6 +5,8 @@ const TaskTable = ({ tasks }) => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [updatedTasks, setUpdatedTasks] = useState(tasks);
   const [searchQuery, setSearchQuery] = useState('');
+ 
+  const [sortOrderAll, setSortOrderAll] = useState(null);
 
   const handleTaskClick = task => {
     const updatedTask = { ...task };
@@ -30,14 +32,29 @@ const TaskTable = ({ tasks }) => {
   const handleSearchChange = e => {
     setSearchQuery(e.target.value);
   };
+ 
+
+  const handleSortAll = () => {
+    setSortOrderAll(prevSortOrder => (prevSortOrder === 'asc' ? 'desc' : 'asc'));
+ 
+  };
 
   const filterTasks = task => {
     return task.name.toLowerCase().includes(searchQuery.toLowerCase());
   };
 
+  const sortTasks = (a, b) => {
+    if (sortOrderAll === 'asc') {
+      return a.time - b.time;
+    } else {
+      return b.time - a.time;
+    }
+  };
+
   const renderTasks = status => {
     return updatedTasks
       .filter(task => task.status === status && filterTasks(task))
+      .sort(sortTasks)
       .map(task => (
         <TaskItem
           key={task.id}
@@ -61,9 +78,18 @@ const TaskTable = ({ tasks }) => {
       <table className="task-table">
         <thead>
           <tr>
-            <th className="column">Todo</th>
-            <th className="column">In Progress</th>
-            <th className="column">Completed</th>
+            <th className="column">
+              Todo{' '}
+              
+            </th>
+            <th className="column">
+              In Progress{' '}
+             
+            </th>
+            <th className="column">
+              Completed{' '}
+ 
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -92,6 +118,7 @@ const TaskTable = ({ tasks }) => {
           <p>{selectedTask.description}</p>
         </div>
       )}
+      <button onClick={handleSortAll}>Sortiraj sve vreme</button>
     </div>
   );
 };
