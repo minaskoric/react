@@ -1,18 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const TaskItem = ({ task, setSelectedTask }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-    setSelectedTask(task);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    setSelectedTask(null);
-  };
-
+const TaskItem = ({ task, handleTaskClick, isSelected }) => {
   let backgroundColor;
   if (task.status === 'todo') {
     backgroundColor = 'rgba(255, 138, 128, 0.5)';
@@ -24,9 +12,9 @@ const TaskItem = ({ task, setSelectedTask }) => {
 
   return (
     <tr
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onClick={() => handleTaskClick(task)}
       style={{ backgroundColor }}
+      className={isSelected ? 'selected' : ''}
     >
       <td>{task.name}</td>
       <td>{task.time} min</td>

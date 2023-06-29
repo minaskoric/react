@@ -1,18 +1,42 @@
 import React, { useState } from 'react';
 import TaskItem from './TaskItem';
  
+
 const TaskTable = ({ tasks }) => {
   const [selectedTask, setSelectedTask] = useState(null);
+  const [updatedTasks, setUpdatedTasks] = useState(tasks);
 
-  const handleTaskHover = task => {
-    setSelectedTask(task);
+  const handleTaskClick = task => {
+    const updatedTask = { ...task };
+
+    if (task.status === 'todo') {
+      updatedTask.status = 'in progress';
+    } else if (task.status === 'in progress') {
+      updatedTask.status = 'completed';
+    } else if (task.status === 'completed') {
+      // Brisanje zadatka iz liste
+      setUpdatedTasks(prevTasks => prevTasks.filter(t => t.id !== updatedTask.id));
+      setSelectedTask(null); // Poništavanje selektovanog zadatka
+      return;
+    }
+
+    // Ažuriranje statusa zadatka
+    setUpdatedTasks(prevTasks =>
+      prevTasks.map(t => (t.id === updatedTask.id ? updatedTask : t))
+    );
+    setSelectedTask(updatedTask);
   };
 
   const renderTasks = status => {
-    return tasks
+    return updatedTasks
       .filter(task => task.status === status)
       .map(task => (
-        <TaskItem key={task.id} task={task}  setSelectedTask={setSelectedTask}/>
+        <TaskItem
+          key={task.id}
+          task={task}
+          handleTaskClick={handleTaskClick}
+          isSelected={selectedTask?.id === task.id}
+        />
       ));
   };
 
@@ -30,19 +54,16 @@ const TaskTable = ({ tasks }) => {
           <tr>
             <td>
               <table>
-               
                 <tbody>{renderTasks('todo')}</tbody>
               </table>
             </td>
             <td>
               <table>
-               
                 <tbody>{renderTasks('in progress')}</tbody>
               </table>
             </td>
             <td>
               <table>
-               
                 <tbody>{renderTasks('completed')}</tbody>
               </table>
             </td>
